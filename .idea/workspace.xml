@@ -2,14 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6b522fd-d9f9-460f-9638-96d55f57db99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/alien_invasion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ship.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backgrund.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bullet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game_character.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keys.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main_game.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rocket.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rocket_game.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings_rocket.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sideways.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ship.py" beforeDir="false" afterPath="$PROJECT_DIR$/ship.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,13 +39,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/m256138/Documents/GitHub/Alien-Invasion"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/m256138/Documents/GitHub/Alien-Invasion&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\m256138\Documents\GitHub\Alien-Invasion" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
