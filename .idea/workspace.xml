@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6b522fd-d9f9-460f-9638-96d55f57db99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backgrund.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bullet.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game_character.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keys.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_game.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rocket.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rocket_game.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings_rocket.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sideways.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/better.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/raindrop.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stars.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/steady.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ship.py" beforeDir="false" afterPath="$PROJECT_DIR$/ship.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sideways.py" beforeDir="false" afterPath="$PROJECT_DIR$/sideways.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +26,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2GJ9lH1s3Ta0u5TraychDjVMKpc" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
