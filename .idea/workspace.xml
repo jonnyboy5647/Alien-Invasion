@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6b522fd-d9f9-460f-9638-96d55f57db99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/better.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/raindrop.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stars.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/steady.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sideways.py" beforeDir="false" afterPath="$PROJECT_DIR$/sideways.py" afterDir="false" />
     </list>
