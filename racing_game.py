@@ -36,6 +36,8 @@ class Settings:
         self.bullet_height = 15
         self.bullet_color = (255,255,255)
         self.bullets_allowed = 10
+        self.alien_speed = 1.0
+        self.alien_frequency = 0.002
 class Bullet(Sprite):
     def __init__(self, rg_game):
         super().__init__()
@@ -53,6 +55,22 @@ class Bullet(Sprite):
     def draw_bullet(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
 
+class Alien(Sprite):
+    def __init__(self, ss_game):
+        super().__init__()
+        self.screen = ss_game.screen
+        self.settings = ss_game.settings
+        self.image = pygame.image.load('images/aliens.png')
+        self.rect = self.image.get_rect()
+        self.rect.left = self.screen.get_rect().right
+        alien_top_max = self.settings.screen_height - self.rect.height
+        self.rect.top = randint(0, alien_top_max)
+        self.x = float(self.rect.x)
+
+    def update(self):
+        self.x -= self.settings.alien_speed
+        self.rect.x = self.x
+
 
 class RacingGame:
     def __init__(self):
@@ -64,6 +82,7 @@ class RacingGame:
         pygame.display.set_caption("Racing Game")
         self.car = Car(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
 
     def run_game(self):
         while True:
@@ -71,6 +90,25 @@ class RacingGame:
             self.car.update()
             self._update_bullets()
             self._update_screen()
+            self._update_aliens()
+            self._create_alien()
+
+    def _check_aliens_left_edge(self):
+        for alien in self.aliens.sprites():
+            if alien.rect.left < 0:
+                self._ship_hit()
+                break
+
+    def _create_alien(self):
+        if random() < self.settings.alien_frequency:
+            alien = Alien(self)
+            self.aliens.add(alien)
+            print(len(self.aliens))
+    def _update_aliens(self):
+        self.aliens.update()
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+        self._check_aliens_left_edge()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -114,6 +152,23 @@ class RacingGame:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         pygame.display.flip()
+        self.aliens.draw(self.screen)
+
+class Alien(Sprite):
+    def __init__(self, ss_game):
+        super().__init__()
+        self.screen = ss_game.screen
+        self.settings = ss_game.settings
+        self.image = pygame.image.load('images/aliens.png')
+        self.rect = self.image.get_rect()
+        self.rect.left = self.screen.get_rect().right
+        alien_top_max = self.settings.screen_height - self.rect.height
+        self.rect.top = randint(0, alien_top_max)
+        self.x = float(self.rect.x)
+
+    def update(self):
+        self.x -= self.settings.alien_speed
+        self.rect.x = self.x
 
 
 #trying to figure out this part, keeping the car in edges while having a background, not working as of rn.
