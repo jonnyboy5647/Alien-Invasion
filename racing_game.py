@@ -1,6 +1,9 @@
 import pygame
 import sys
 from pygame.sprite import Sprite
+from random import random
+from random import randint
+
 
 
 class Car:
@@ -14,6 +17,7 @@ class Car:
         self.x = float(self.rect.x)
         self.moving_right = False
         self.moving_left = False
+        self.center_car()
     def update(self):
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.car_speed
@@ -21,6 +25,11 @@ class Car:
             self.x -= self.settings.car_speed
 
         self.rect.x = self.x
+
+    def center_car(self):
+        self.rect.midleft = self.screen_rect.midleft
+        self.y = float(self.rect.y)
+
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -38,6 +47,7 @@ class Settings:
         self.bullets_allowed = 10
         self.alien_speed = 1.0
         self.alien_frequency = 0.002
+        self.car_limit = 3
 class Bullet(Sprite):
     def __init__(self, rg_game):
         super().__init__()
@@ -71,6 +81,13 @@ class Alien(Sprite):
         self.x -= self.settings.alien_speed
         self.rect.x = self.x
 
+class GameStats:
+    def __init__(self, ss_game):
+        self.settings = ss_game.settings
+        self.reset_stats()
+        self.game_active = True
+    def reset_stats(self):
+        self.cars_left = self.settings.car_limit
 
 class RacingGame:
     def __init__(self):
@@ -83,6 +100,7 @@ class RacingGame:
         self.car = Car(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.stats = GameStats(self)
 
     def run_game(self):
         while True:
@@ -96,8 +114,17 @@ class RacingGame:
     def _check_aliens_left_edge(self):
         for alien in self.aliens.sprites():
             if alien.rect.left < 0:
-                self._ship_hit()
+                self._car_hit()
                 break
+
+    def _car_hit(self):
+        if self.stats.cars_left > 0:
+            self.stats.cars_left -= 1
+            self.aliens.empty()
+            self.bullets.empty()
+            self.car.center_car()
+        else:
+            self.stats.game_active = False
 
     def _create_alien(self):
         if random() < self.settings.alien_frequency:
@@ -106,8 +133,8 @@ class RacingGame:
             print(len(self.aliens))
     def _update_aliens(self):
         self.aliens.update()
-        if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            self._ship_hit()
+        if pygame.sprite.spritecollideany(self.car, self.aliens):
+            self._car_hit()
         self._check_aliens_left_edge()
 
     def _check_events(self):
@@ -151,8 +178,8 @@ class RacingGame:
         self.car.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-        pygame.display.flip()
         self.aliens.draw(self.screen)
+        pygame.display.flip()
 
 class Alien(Sprite):
     def __init__(self, ss_game):
@@ -161,34 +188,16 @@ class Alien(Sprite):
         self.settings = ss_game.settings
         self.image = pygame.image.load('images/aliens.png')
         self.rect = self.image.get_rect()
-        self.rect.left = self.screen.get_rect().right
-        alien_top_max = self.settings.screen_height - self.rect.height
-        self.rect.top = randint(0, alien_top_max)
-        self.x = float(self.rect.x)
+        self.rect.bottom = self.screen.get_rect().top
+        alien_top_max = self.settings.screen_width - self.rect.width
+        self.rect.right = randint(0, alien_top_max)
+        self.y = float(self.rect.y)
 
     def update(self):
-        self.x -= self.settings.alien_speed
-        self.rect.x = self.x
+        self.y -= self.settings.alien_speed
+        self.rect.y = self.y
 
 
-#trying to figure out this part, keeping the car in edges while having a background, not working as of rn.
-import pygame
-background = [
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-]
-
-TILE_SIZE = 205
-road = pygame.image.load("images/road_sand87.png")
-tile_rect = road.get_rect()
-def draw_background(bg_size):
-    bg = pygame.Surface(bg_size)
-    for everything, grid_list in enumerate(background):
-        for stuff, grid_element in enumerate(background_list):
-            bg.blit(road[grid_element], (everything*TILE_SIZE, stuff*TILE_SIZE))
-    return bg
 
 
 if __name__ == '__main__':
