@@ -105,16 +105,16 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ss_game.screen
         self.settings = ss_game.settings
-        self.image = pygame.image.load('images/aliens.png')
+        self.image = pygame.image.load('images/redmot.png')
         self.rect = self.image.get_rect()
-        self.rect.left = self.screen.get_rect().right
-        alien_top_max = self.settings.screen_height - self.rect.height
-        self.rect.top = randint(0, alien_top_max)
-        self.x = float(self.rect.x)
+        self.rect.bottom = self.screen.get_rect().top
+        alien_top_max = self.settings.screen_width - self.rect.width
+        self.rect.left = randint(0, alien_top_max)
+        self.y = float(self.rect.y)
 
     def update(self):
-        self.x -= self.settings.alien_speed
-        self.rect.x = self.x
+        self.y += self.settings.alien_speed
+        self.rect.y = self.y
 
 class GameStats:
     def __init__(self, ss_game):
@@ -216,21 +216,7 @@ class RacingGame:
         self.aliens.draw(self.screen)
         pygame.display.flip()
 
-class Alien(Sprite):
-    def __init__(self, ss_game):
-        super().__init__()
-        self.screen = ss_game.screen
-        self.settings = ss_game.settings
-        self.image = pygame.image.load('images/aliens.png')
-        self.rect = self.image.get_rect()
-        self.rect.bottom = self.screen.get_rect().top
-        alien_top_max = self.settings.screen_width - self.rect.width
-        self.rect.right = randint(0, alien_top_max)
-        self.y = float(self.rect.y)
 
-    def update(self):
-        self.y -= self.settings.alien_speed
-        self.rect.y = self.y
 
 
 

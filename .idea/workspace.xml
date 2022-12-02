@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6b522fd-d9f9-460f-9638-96d55f57db99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/background.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/dirt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/grass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/greentrack.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/road_sand87.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/racing_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/racing_game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
