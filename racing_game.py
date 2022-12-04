@@ -47,42 +47,8 @@ class Settings:
         self.bullets_allowed = 10
         self.alien_speed = 1.0
         self.alien_frequency = 0.002
-        self.car_limit = 3
+        self.car_limit = 0
 
-
-# 0 is grass, 1 is dirt 2 is sand
-grid = [
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-    [0, 0, 1, 1, 2, 2, 1, 1, 0, 0, ],
-]
-
-TILE_SIZE = 128
-
-# define images for our background
-grass = pygame.image.load("images/grass.png")
-dirt = pygame.image.load("images/dirt.png")
-track = pygame.image.load("images/greentrack.png")
-
-soils = [grass,dirt,track]
-
-# grab the dimension of our tile rectangle
-tile_rect = grass.get_rect()
-
-
-def draw_background(bg_size):
-    bg = pygame.Surface(bg_size)
-    # draw each tile onto our background
-    for r, grid_list in enumerate(grid):
-        for c, grid_element in enumerate(grid_list):
-            # blit the correc tile onto our screen
-            bg.blit(soils[grid_element], (c*TILE_SIZE, r*TILE_SIZE))
-    return bg
 class Bullet(Sprite):
     def __init__(self, rg_game):
         super().__init__()
@@ -117,8 +83,8 @@ class Alien(Sprite):
         self.rect.y = self.y
 
 class GameStats:
-    def __init__(self, ss_game):
-        self.settings = ss_game.settings
+    def __init__(self, rg_game):
+        self.settings = rg_game.settings
         self.reset_stats()
         self.game_active = True
     def reset_stats(self):
@@ -138,13 +104,32 @@ class RacingGame:
         self.stats = GameStats(self)
 
     def run_game(self):
-        while True:
+        self._background_music()
+
+        while self.stats.game_active:
             self._check_events()
             self.car.update()
             self._update_bullets()
             self._update_screen()
             self._update_aliens()
             self._create_alien()
+
+        Font = pygame.font.SysFont('Arial', 60)
+        game_over_text = Font.render(f"GAME OVER", True, (200, 200, 200))
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(game_over_text, (750, 500))
+        pygame.display.flip()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    self._check_keydown_events(event)
+
+    def _background_music(self):
+        pygame.mixer.music.load("music/Assets_Audio_music.ogg")
+        pygame.mixer.music.play(-1)
 
     def _check_aliens_left_edge(self):
         for alien in self.aliens.sprites():
@@ -166,6 +151,9 @@ class RacingGame:
             alien = Alien(self)
             self.aliens.add(alien)
             print(len(self.aliens))
+        Font = pygame.font.SysFont('Arial', 30)
+        score_text = Font.render(f"SCORE: {len(self.aliens)}", True, (0, 0, 0))
+        self.screen.blit(score_text, (15, 20))
     def _update_aliens(self):
         self.aliens.update()
         if pygame.sprite.spritecollideany(self.car, self.aliens):
@@ -211,6 +199,7 @@ class RacingGame:
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         self.car.blitme()
+        self._create_alien()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
