@@ -3,6 +3,7 @@ import sys
 from pygame.sprite import Sprite
 from random import random
 from random import randint
+from pygame import mixer
 
 
 class Car:
@@ -230,6 +231,8 @@ class RacingGame:
             self.car2.moving_left = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+            bullet_sound = mixer.Sound("music/laser.wav")
+            bullet_sound.play()
         elif event.key == pygame.K_q:
             sys.exit()
 
