@@ -12,11 +12,10 @@ class Car:
         self.screen_rect = rg_game.screen.get_rect()
         self.image = pygame.image.load('images/car_black_3.png')
         self.rect = self.image.get_rect()
-        self.rect.center = self.screen_rect.center
+        self.rect.bottomleft = self.screen_rect.bottomleft
         self.x = float(self.rect.x)
         self.moving_right = False
         self.moving_left = False
-        self.center_car()
 
     def update(self):
         if self.moving_right and self.rect.right < self.screen_rect.right:
@@ -26,9 +25,29 @@ class Car:
 
         self.rect.x = self.x
 
-    def center_car(self):
-        self.rect.midleft = self.screen_rect.midleft
-        self.y = float(self.rect.y)
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
+
+class Car2:
+    def __init__(self, rg_game):
+        self.screen = rg_game.screen
+        self.settings = rg_game.settings
+        self.screen_rect = rg_game.screen.get_rect()
+        self.image = pygame.image.load('images/car_black_3.png')
+        self.rect = self.image.get_rect()
+        self.rect.bottomright = self.screen_rect.bottomright
+        self.x = float(self.rect.x)
+        self.moving_right = False
+        self.moving_left = False
+
+    def update(self):
+        if self.moving_right and self.rect.right < self.screen_rect.right:
+            self.x += self.settings.car_speed
+        if self.moving_left and self.rect.left > 0:
+            self.x -= self.settings.car_speed
+
+        self.rect.x = self.x
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -39,15 +58,16 @@ class Settings:
         self.screen_width = 1000
         self.screen_height = 600
         self.bg_color = (0, 0, 255)
-        self.car_speed = 1.5
-        self.bullet_speed = 3.0
+        self.car_speed = 6
+        self.bullet_speed = 8
         self.bullet_width = 4
         self.bullet_height = 15
         self.bullet_color = (255, 255, 255)
         self.bullets_allowed = 10
-        self.alien_speed = 1.0
-        self.alien_frequency = 0.002
+        self.alien_speed = 7.5
+        self.alien_frequency = 0.015
         self.car_limit = 0
+
 
 class Bullet(Sprite):
     def __init__(self, rg_game):
@@ -94,15 +114,31 @@ class GameStats:
         self.cars_left = self.settings.car_limit
 
 
+class Background:
+    def __init__(self, jj_game):
+        super().__init__()
+        self.screen = jj_game.screen
+
+        self.image = pygame.image.load("images/roadbacl.png")
+
+        self.screen_rect = self.screen.get_rect
+        self.rect = self.image.get_rect()
+
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
+
 class RacingGame:
     def __init__(self):
         pygame.init()
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((910, 1030))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Racing Game")
         self.car = Car(self)
+        self.car2 = Car2(self)
+        self.background = Background(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self.stats = GameStats(self)
@@ -114,6 +150,7 @@ class RacingGame:
             self._check_events()
             if self.stats.game_active:
                 self.car.update()
+                self.car2.update()
                 self._update_bullets()
                 self._update_aliens()
                 self._create_alien()
@@ -122,7 +159,7 @@ class RacingGame:
         Font = pygame.font.SysFont('Arial', 60)
         game_over_text = Font.render(f"GAME OVER", True, (200, 200, 200))
         self.screen.fill((0, 0, 0))
-        self.screen.blit(game_over_text, (750, 500))
+        self.screen.blit(game_over_text, (300, 400))
         pygame.display.flip()
 
         while True:
@@ -147,9 +184,10 @@ class RacingGame:
             self.stats.cars_left -= 1
             self.aliens.empty()
             self.bullets.empty()
-            self.car.center_car()
+            #self.car.center_car()
         else:
             self.stats.game_active = False
+
 
     def _create_alien(self):
         if random() < self.settings.alien_frequency:
@@ -165,7 +203,12 @@ class RacingGame:
         self.aliens.update()
         if pygame.sprite.spritecollideany(self.car, self.aliens):
             self._car_hit()
+        if pygame.sprite.spritecollideany(self.car2, self.aliens):
+            self._car_hit()
         self._check_aliens_left_edge()
+
+    def _check_bullet_alien_collisions(self):
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -181,6 +224,10 @@ class RacingGame:
             self.car.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.car.moving_left = True
+        elif event.key == pygame.K_d:
+            self.car2.moving_right = True
+        elif event.key == pygame.K_a:
+            self.car2.moving_left = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         elif event.key == pygame.K_q:
@@ -189,14 +236,19 @@ class RacingGame:
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
             self.car.moving_right = False
+        elif event.key == pygame.K_d:
+            self.car2.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.car.moving_left = False
+        elif event.key == pygame.K_a:
+            self.car2.moving_left = False
 
     def _update_bullets(self):
         self.bullets.update()
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+        self._check_bullet_alien_collisions()
 
     def _fire_bullet(self):
         if len(self.bullets) < self.settings.bullets_allowed:
@@ -205,7 +257,9 @@ class RacingGame:
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
+        self.background.blitme()
         self.car.blitme()
+        self.car2.blitme()
         self._create_alien()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
